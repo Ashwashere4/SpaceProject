@@ -134,7 +134,7 @@ export default function App() {
   const planets = [
     { name: 'About Me', url: 'https://github.com/Ashwashere4' },
     { name: 'Projects', url: 'https://github.com/Ashwashere4?tab=repositories' },
-    { name: 'Linkedin', url: 'https://linkedin.com' }
+    { name: 'Linkedin', url: 'https://www.linkedin.com/in/caden-f-150ba2158/' }
   ];
 
   return (
@@ -274,7 +274,7 @@ export default function App() {
           speed={0.1} 
           color="#1318b9" 
           name="Linkedin" 
-          url="https://linkedin.com" 
+          url="https://www.linkedin.com/in/caden-f-150ba2158/" 
           setSelectedPlanet={setSelectedPlanet} 
         />
 
