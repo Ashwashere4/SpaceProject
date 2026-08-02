@@ -1,0 +1,85 @@
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #0d1b1e;
+}
+
+.universe {
+  position: relative;
+  width: 500vw;
+  height: 500vh;
+  display: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.sun-Planet {
+  position: absolute;
+  font-size: 4rem;
+  z-index: 10;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Orbit track container */
+.orbit-path {
+  position: absolute;
+  border: 1px dashed rgba(255, 255, 255);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Orbit animations with different speeds and radii */
+.orbit-1 {
+  width: 250px;
+  height: 250px;
+  animation: spin 10s linear infinite;
+}
+
+.orbit-2 {
+  width: 450px;
+  height: 450px;
+  animation: spin 18s linear infinite reverse;
+}
+
+.orbit-3 {
+  width: 650px;
+  height: 650px;
+  animation: spin 25s linear infinite;
+}
+
+/* The Planet itself */
+.orbiting-Planet {
+  font-size: 2.5rem;
+  transform: translateY(-50%);
+  animation: counter-spin 10s linear infinite;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.orbiting-Planet:hover {
+  transform: translateY(-50%) scale(1.3);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes counter-spin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(-360deg);
+  }
+}
