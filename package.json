@@ -1,0 +1,19 @@
+{
+  "homepage": "https://your-github-username.github.io/your-repo-name",
+  "name": "your-repo-name",
+  "private": true,
+  "version": "0.0.0",
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  },
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  }
+
+
+}
