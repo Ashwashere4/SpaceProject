@@ -428,11 +428,13 @@ export default function App() {
   ];
 
   
-  const asteroids = Array.from({ length: 200 }, () => ({
-  radius: Math.random() * 8 + 4,            
-  speed: Math.random() * 0.3 + 0.1,          
-  size: Math.random() * 0.15 + 0.1           
-}));
+  const [asteroids] = useState(() => 
+    Array.from({ length: 200 }, () => ({
+      radius: Math.random() * 8 + 4,            
+      speed: Math.random() * 0.3 + 0.1,          
+      size: Math.random() * 0.15 + 0.1           
+    }))
+  );
 
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#000000', position: 'relative', overflow: 'hidden' }}>
