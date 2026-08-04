@@ -33,7 +33,7 @@ function ShootingComet({ id, name, onComplete }) {
       (Math.random() - 0.5) * 15
     ).normalize();
 
-    const speed = Math.random() * 6 + 3;
+    const speed = Math.random() * 6 + 2;
     return { startX, startY, startZ, velocity, speed };
   });
 
@@ -52,9 +52,23 @@ function ShootingComet({ id, name, onComplete }) {
     }
   });
 
-  return (
-    <group ref={cometRef} position={[data.startX, data.startY, data.startZ]}>
-      {/* Comet Head */}
+  // Inside ShootingComet component, determine the type once when it spawns:
+const [isSpecial] = useState(() => Math.random() < 0.1); // 10% chance for a rare variant
+
+return (
+  <group ref={cometRef} position={[data.startX, data.startY, data.startZ]}>
+    {/* Comet Head / Shape Variant */}
+    {isSpecial ? (
+      <mesh>
+        <torusKnotGeometry args={[0.2, 0.05, 64, 16]} />
+        <meshStandardMaterial 
+          color="#ffffff" 
+          emissive="#ffff00" 
+          emissiveIntensity={0.5} 
+          toneMapped={false} 
+        />
+      </mesh>
+    ) : (
       <mesh>
         <sphereGeometry args={[0.12, 12, 12]} />
         <meshStandardMaterial 
@@ -64,36 +78,37 @@ function ShootingComet({ id, name, onComplete }) {
           toneMapped={false} 
         />
       </mesh>
+    )}
 
-      {/* Trailing Tail */}
-      <group ref={tailRef}>
-        <mesh position={[0, 1.2, 0]}>
-          <coneGeometry args={[0.08, 2.5, 8]} />
-          <meshBasicMaterial 
-            color="#00ffff" 
-            transparent={true} 
-            opacity={0.5} 
-            side={THREE.DoubleSide} 
-          />
-        </mesh>
-      </group>
-
-      {/* Comet Text Label */}
-        {name && (
-          <Billboard position={[0, 0.5, 0]}>
-            <Text
-              fontSize={0.25}
-              color="#ffffff"
-              anchorX="center"
-              anchorY="middle"
-              material-toneMapped={false}
-            >
-              {name}
-            </Text>
-          </Billboard>
-        )}
+    {/* Trailing Tail */}
+    <group ref={tailRef}>
+      <mesh position={[0, 1.2, 0]}>
+        <coneGeometry args={[0.08, 2.5, 8]} />
+        <meshBasicMaterial 
+          color={isSpecial ? "#ffff00" : "#00ffff"} 
+          transparent={true} 
+          opacity={0.5} 
+          side={THREE.DoubleSide} 
+        />
+      </mesh>
     </group>
-  );
+
+    {/* Comet Text Label */}
+    {name && (
+      <Billboard position={[0, 0.5, 0]}>
+        <Text
+          fontSize={0.5}
+          color="#ffffff"
+          anchorX="center"
+          anchorY="middle"
+          material-toneMapped={false}
+        >
+          {name}
+        </Text>
+      </Billboard>
+    )}
+  </group>
+);
 }
 
 // Manager component that periodically spawns shooting comets
@@ -101,7 +116,7 @@ function CometShower() {
   const [comets, setComets] = useState([]);
 
   // Array of text labels you want your comets to display
-  const cometMessages = ['Video Games', 'Anime and Manga', 'Corny TV Shows', 'To the stars!', "Keyboard Building"];
+  const cometMessages = ['Video Games', 'Anime', 'Manga', 'Corny TV Shows', 'To the stars!', 'Keyboard Building', 'Coding', ]
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -143,8 +158,8 @@ function OrbitingAsteroid({ radius, speed, size, name, url, setSelectedPlanet, o
       asteroidRef.current.position.z = Math.sin(t) * radius;
     }
     if (meshRef.current) {
-      meshRef.current.rotation.x += delta * 0.3;
-      meshRef.current.rotation.y += delta * 0.5;
+      meshRef.current.rotation.x += delta * Math.random() * 2;
+      meshRef.current.rotation.y += delta * Math.random() * 2;
     }
   });
 
@@ -158,7 +173,7 @@ function OrbitingAsteroid({ radius, speed, size, name, url, setSelectedPlanet, o
       <mesh 
         ref={meshRef}
       >
-        <octahedronGeometry args={[size, 0]} />
+        <tetrahedronGeometry args={[size, 0]} />
         <meshStandardMaterial 
           color="#555555" 
           roughness={0.9} 
@@ -168,7 +183,7 @@ function OrbitingAsteroid({ radius, speed, size, name, url, setSelectedPlanet, o
           flatShading={true}
           toneMapped={false}
         />
-          <octahedronGeometry args={[size, 0]} />
+          <tetrahedronGeometry args={[size, 0]} />
           <meshBasicMaterial 
               color={asteroid_atomsphere}
               transparent={true} 
@@ -177,19 +192,6 @@ function OrbitingAsteroid({ radius, speed, size, name, url, setSelectedPlanet, o
             />
         
       </mesh>
-      
-      {name && (
-        <Billboard position={[0, size + 0.3, 0]}>
-          <Text
-            fontSize={0.2}
-            color="#aaaaaa"
-            anchorX="center"
-            anchorY="middle"
-          >
-            {name}
-          </Text>
-        </Billboard>
-      )}
     </group>
   );
 }
@@ -261,10 +263,11 @@ function OrbitingMoon({ moonRadius, speed, color, size, name, url, setSelectedPl
       </mesh>
       
       
-      <Billboard position={[0, size + 0.3, 0]}>
+      <Billboard position={[0, size + 0.4, 0]}>
         <Text
-          fontSize={0.2}
+          fontSize={0.4}
           color="#cccccc"
+          border='#000000'
           anchorX="center"
           anchorY="middle"
         >
@@ -402,7 +405,7 @@ function OrbitingPlanet({ radius, speed, color, size, name, url, setSelectedPlan
         
         <Billboard position={[0, 1, 0]}>
           <Text
-            fontSize={0.3}
+            fontSize={0.5}
             color="white"
             anchorX="center"
             anchorY="middle"
@@ -417,7 +420,7 @@ function OrbitingPlanet({ radius, speed, color, size, name, url, setSelectedPlan
 
 export default function App() {
   const [selectedPlanet, setSelectedPlanet] = useState('Click a Planet to inspect');
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(true);
 
   const planets = [
     { name: 'About Me', url: 'https://github.com/Ashwashere4' },
